@@ -1,29 +1,38 @@
-import React from 'react';
+import { ProductsContext } from 'contexts/context/contexts';
+import React, { useContext } from 'react';
 
 const mockData = [
 	{
-		type: 'Insignia™(746)',
+		type: 'Insignia™',
+		quantity: 746,
 		checked: false,
 	},
 	{
-		type: 'Samsung(633)',
+		type: 'Samsung',
+		quantity: 746,
 		checked: false,
 	},
 	{
-		type: 'Metra(591)',
+		type: 'Metra',
+		quantity: 746,
 		checked: false,
 	},
 	{
-		type: 'HP(530)',
+		type: 'HP',
+		quantity: 746,
 		checked: false,
 	},
 	{
-		type: 'Apple(442)',
+		type: 'Apple',
+		quantity: 746,
 		checked: true,
 	},
 ];
 
 function FilterBrand() {
+	const productsContext = useContext(ProductsContext);
+	const brandsShow = productsContext.payload?.brands?.slice(0, 5);
+
 	const mapListBrand = (data) => {
 		return data.map((dataItem, index) => {
 			return (
@@ -33,13 +42,13 @@ function FilterBrand() {
 						type='checkbox'
 						defaultChecked={dataItem.checked}
 					/>
-					{dataItem.type}
+					{`${dataItem.type} (${dataItem.quantity})`}
 				</div>
 			);
 		});
 	};
 
-	return <div className='block-brand'>{mapListBrand(mockData)}</div>;
+	return <div className='block-brand'>{mapListBrand(brandsShow)}</div>;
 }
 
 export default FilterBrand;

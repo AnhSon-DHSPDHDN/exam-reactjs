@@ -31,7 +31,6 @@ const mockData = [
 
 function FilterType() {
 	const productsContext = useContext(ProductsContext);
-	console.log(productsContext.payload?.types);
 
 	const mapListType = (data) => {
 		return data.map((dataItem, index) => {

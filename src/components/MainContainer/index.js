@@ -22,7 +22,7 @@ function MainContainer() {
 				_page: current,
 			};
 			const { data } = await axiosClient.get('products', {
-				params: payload,
+				params: { ...payload, ...productsContext.payload.filters },
 			});
 			productsContext.dispatch({
 				type: Types.CHANGE_CURRENT_PAGE,

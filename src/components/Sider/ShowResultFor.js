@@ -1,5 +1,7 @@
+import { Types } from 'constants/types';
 import { ProductsContext } from 'contexts/context/contexts';
 import React, { useContext } from 'react';
+import axiosClient from 'untils/axiosClient';
 
 const mockData = [
 	{
@@ -40,6 +42,46 @@ const mockData = [
 
 function ShowResultFor() {
 	const productsContext = useContext(ProductsContext);
+	const getProductsByCategory = async (category) => {
+		const payload = {
+			categories_like: category,
+		};
+		const products = await axiosClient.get('products', {
+			params: { ...productsContext.payload.filters, ...payload },
+		});
+		const productsInPage = await axiosClient.get('products', {
+			params: { ...payload, _limit: 16, _page: 1 },
+		});
+		return {
+			products: products?.data,
+			productsInPage: productsInPage?.data,
+			filters: { ...productsContext.payload?.filters, ...payload },
+		};
+	};
+
+	const handleClickCategory = async (category) => {
+		productsContext.dispatch({
+			type: Types.SET_IS_LOADING,
+		});
+		try {
+			switch (category.level) {
+				case 0: {
+					const { products, productsInPage, filters } =
+						await getProductsByCategory(category.name);
+
+					productsContext.dispatch({
+						type: Types.GET_CATEGORIES_LVL_0,
+						payload: { products, productsInPage, category, filters },
+					});
+					return;
+				}
+				default:
+					return;
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	};
 
 	const mapListRefine = (data, margin) => {
 		return data.map((dataItem, index) => {
@@ -50,6 +92,7 @@ function ShowResultFor() {
 						className={`refine-block__text ${
 							dataItem.isActive ? 'active' : ''
 						}`}
+						onClick={() => handleClickCategory(dataItem)}
 					>
 						{dataItem.name}
 					</span>

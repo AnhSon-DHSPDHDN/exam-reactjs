@@ -60,6 +60,12 @@
 		}
 	}
 
+	.block-brand {
+		&__list {
+			cursor: pointer;
+		}
+	}
+
 	.refine-block {
 		.active {
 			font-weight: 500;
