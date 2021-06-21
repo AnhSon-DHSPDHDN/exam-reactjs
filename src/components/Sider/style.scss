@@ -40,4 +40,38 @@
 			}
 		}
 	}
+
+	.price-block {
+		.active {
+			font-weight: 500;
+			color: $color-red;
+		}
+		.price-item {
+			cursor: pointer;
+			&:hover {
+				color: $color-red;
+			}
+		}
+	}
+
+	.block-type {
+		&__list {
+			cursor: pointer;
+		}
+	}
+
+	.refine-block {
+		.active {
+			font-weight: 500;
+			color: $color-red;
+		}
+
+		&__text {
+			cursor: pointer;
+			&:hover {
+				font-weight: 500;
+				color: $color-red;
+			}
+		}
+	}
 }
