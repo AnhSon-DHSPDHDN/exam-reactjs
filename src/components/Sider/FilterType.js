@@ -1,29 +1,38 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { ProductsContext } from 'contexts/context/contexts';
 
 const mockData = [
 	{
-		type: 'Trend cases(457)',
+		type: 'Trend cases',
+		quantity: 12,
 		checked: false,
 	},
 	{
-		type: 'Ult protection cases(393)',
+		type: 'Ult protection cases',
+		quantity: 12,
 		checked: false,
 	},
 	{
-		type: 'Ink cartridges(249)',
+		type: 'Ink cartridges',
+		quantity: 12,
 		checked: false,
 	},
 	{
-		type: 'Business cases(217)',
+		type: 'Business cases',
+		quantity: 12,
 		checked: false,
 	},
 	{
-		type: 'Connectivity(181)',
+		type: 'Connectivity',
+		quantity: 12,
 		checked: true,
 	},
 ];
 
 function FilterType() {
+	const productsContext = useContext(ProductsContext);
+	console.log(productsContext.payload?.types);
+
 	const mapListType = (data) => {
 		return data.map((dataItem, index) => {
 			return (
@@ -33,12 +42,16 @@ function FilterType() {
 						type='checkbox'
 						defaultChecked={dataItem.checked}
 					/>
-					{dataItem.type}
+					{`${dataItem.type} (${dataItem.quantity})`}
 				</div>
 			);
 		});
 	};
-	return <div className='block-type'>{mapListType(mockData)}</div>;
+	return (
+		<div className='block-type'>
+			{mapListType(productsContext.payload?.types)}
+		</div>
+	);
 }
 
 export default FilterType;

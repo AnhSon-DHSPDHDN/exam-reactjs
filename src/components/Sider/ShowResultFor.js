@@ -1,4 +1,5 @@
-import React from 'react';
+import { ProductsContext } from 'contexts/context/contexts';
+import React, { useContext } from 'react';
 
 const mockData = [
 	{
@@ -38,6 +39,8 @@ const mockData = [
 ];
 
 function ShowResultFor() {
+	const productsContext = useContext(ProductsContext);
+
 	const mapListRefine = (data, margin) => {
 		return data.map((dataItem, index) => {
 			return (
@@ -55,7 +58,11 @@ function ShowResultFor() {
 			);
 		});
 	};
-	return <div className='refine-block'>{mapListRefine(mockData, 0)}</div>;
+	return (
+		<div className='refine-block'>
+			{mapListRefine(productsContext.payload?.showResultFor, 0)}
+		</div>
+	);
 }
 
 export default ShowResultFor;
