@@ -6,6 +6,7 @@ import { ProductsContext } from 'contexts/context/contexts';
 import { productsReducer } from 'contexts/reducers/productsReducer';
 
 const initialState = {
+	allProducts: [],
 	products: [],
 	filters: {},
 	isFilter: false,

@@ -1,9 +1,14 @@
-import React from 'react';
+import { ProductsContext } from 'contexts/context/contexts';
+import React, { useContext } from 'react';
 
 function Sort() {
+	const productsContext = useContext(ProductsContext);
+
 	return (
 		<div className='sort__container'>
-			<span className='sort-infor'>123 results found in 123ms</span>
+			<span className='sort-infor'>
+				{productsContext.payload?.panigations?.total} results found in 123ms
+			</span>
 			<div className='sort-action'>
 				<span className='mr-2'>Sort by</span>
 				<select className='ais-sort-by-selector'>
