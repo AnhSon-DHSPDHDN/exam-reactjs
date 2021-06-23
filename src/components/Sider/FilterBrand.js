@@ -3,33 +3,33 @@ import { ProductsContext } from 'contexts/context/contexts';
 import React, { useContext, useState } from 'react';
 import axiosClient from 'untils/axiosClient';
 
-const mockData = [
-	{
-		type: 'Insignia™',
-		quantity: 746,
-		checked: false,
-	},
-	{
-		type: 'Samsung',
-		quantity: 746,
-		checked: false,
-	},
-	{
-		type: 'Metra',
-		quantity: 746,
-		checked: false,
-	},
-	{
-		type: 'HP',
-		quantity: 746,
-		checked: false,
-	},
-	{
-		type: 'Apple',
-		quantity: 746,
-		checked: true,
-	},
-];
+// const mockData = [
+// 	{
+// 		type: 'Insignia™',
+// 		quantity: 746,
+// 		checked: false,
+// 	},
+// 	{
+// 		type: 'Samsung',
+// 		quantity: 746,
+// 		checked: false,
+// 	},
+// 	{
+// 		type: 'Metra',
+// 		quantity: 746,
+// 		checked: false,
+// 	},
+// 	{
+// 		type: 'HP',
+// 		quantity: 746,
+// 		checked: false,
+// 	},
+// 	{
+// 		type: 'Apple',
+// 		quantity: 746,
+// 		checked: true,
+// 	},
+// ];
 
 function FilterBrand() {
 	const productsContext = useContext(ProductsContext);

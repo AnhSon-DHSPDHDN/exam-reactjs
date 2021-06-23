@@ -34,11 +34,9 @@ function MainLayout({ children }) {
 				console.log(error);
 			}
 		};
-		if (productsContext.payload.products.length === 0) {
-			getProductInPage();
-		}
+		getProductInPage();
 		// eslint-disable-next-line
-	}, [productsContext.payload.products]);
+	}, []);
 	return (
 		<div>
 			<Header />

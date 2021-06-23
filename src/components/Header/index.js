@@ -1,9 +1,45 @@
-import React from 'react';
+import React, { useContext, useRef } from 'react';
 
 import './style.scss';
 import Logo from 'assets/imgs/logo-is.webp';
+import { ProductsContext } from 'contexts/context/contexts';
+import { Types } from 'constants/types';
+import axiosClient from 'untils/axiosClient';
 
 export default function Header() {
+	const typingTimeoutRef = useRef(null);
+	const productContext = useContext(ProductsContext);
+
+	const handleSearchChange = (e) => {
+		const { value } = e.target;
+
+		if (typingTimeoutRef.current) {
+			clearTimeout(typingTimeoutRef.current);
+		}
+
+		typingTimeoutRef.current = setTimeout(() => {
+			onSearch(value);
+		}, 500);
+	};
+
+	const onSearch = async (value) => {
+		try {
+			const payload = {
+				...productContext.payload.filters,
+				q: value,
+			};
+			const { data } = await axiosClient.get('products', {
+				params: payload,
+			});
+			productContext.dispatch({
+				type: Types.SEARCH_PRODUCT,
+				payload: { products: data, filters: payload },
+			});
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
 	return (
 		<header id='header'>
 			<div className='header__container'>
@@ -23,6 +59,7 @@ export default function Header() {
 							autoCorrect='off'
 							placeholder='Search a product'
 							spellCheck='false'
+							onChange={handleSearchChange}
 						/>
 					</div>
 					<span className='input-group-btn'>

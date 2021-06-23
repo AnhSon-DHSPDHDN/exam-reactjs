@@ -3,42 +3,42 @@ import { ProductsContext } from 'contexts/context/contexts';
 import React, { useContext } from 'react';
 import axiosClient from 'untils/axiosClient';
 
-const mockData = [
-	{
-		name: 'Appliances',
-		level: 0,
-		isActive: true,
-		children: [
-			{
-				name: 'Dishwashers',
-				level: 1,
-				isActive: true,
-				children: [
-					{
-						name: 'Dishwashers 2',
-						isActive: true,
-						level: 2,
-					},
-				],
-			},
-			{
-				name: 'item 2',
-				isActive: false,
-				level: 1,
-			},
-			{
-				name: 'item 3',
-				isActive: false,
-				level: 1,
-			},
-		],
-	},
-	{
-		name: 'Appliances 2',
-		isActive: false,
-		level: 0,
-	},
-];
+// const mockData = [
+// 	{
+// 		name: 'Appliances',
+// 		level: 0,
+// 		isActive: true,
+// 		children: [
+// 			{
+// 				name: 'Dishwashers',
+// 				level: 1,
+// 				isActive: true,
+// 				children: [
+// 					{
+// 						name: 'Dishwashers 2',
+// 						isActive: true,
+// 						level: 2,
+// 					},
+// 				],
+// 			},
+// 			{
+// 				name: 'item 2',
+// 				isActive: false,
+// 				level: 1,
+// 			},
+// 			{
+// 				name: 'item 3',
+// 				isActive: false,
+// 				level: 1,
+// 			},
+// 		],
+// 	},
+// 	{
+// 		name: 'Appliances 2',
+// 		isActive: false,
+// 		level: 0,
+// 	},
+// ];
 
 function ShowResultFor() {
 	const productsContext = useContext(ProductsContext);

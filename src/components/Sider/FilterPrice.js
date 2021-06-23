@@ -1,4 +1,7 @@
-import React, { useState } from 'react';
+import { Types } from 'constants/types';
+import { ProductsContext } from 'contexts/context/contexts';
+import React, { useContext, useState } from 'react';
+import axiosClient from 'untils/axiosClient';
 
 const listPrice = [
 	{ lable: '≤ 1', value: '1' },
@@ -12,14 +15,80 @@ const listPrice = [
 ];
 
 export default function FilterPrice() {
+	const productsContext = useContext(ProductsContext);
 	const [index, setIndex] = useState(null);
 
-	const handleSetActive = (i) => {
-		if (i === index) {
-			setIndex(null);
-			return;
+	const getProductsByPrice = async (price) => {
+		if (price.lable.includes('≤')) {
+			const payload = {
+				...productsContext.payload.filters,
+				price_lte: price.value,
+			};
+			const products = await axiosClient.get('products', { params: payload });
+			return {
+				products: [...products.data],
+				filters: payload,
+			};
+		} else if (price.lable.includes('≥')) {
+			const payload = {
+				...productsContext.payload.filters,
+				price_gte: price.value,
+			};
+			const products = await axiosClient.get('products', { params: payload });
+			return {
+				products: [...products.data],
+				filters: payload,
+			};
+		} else {
+			const smallValue = price.value.split('-')[0];
+			const bigValue = price.value.split('-')[1];
+			const payload = {
+				...productsContext.payload.filters,
+				price_gte: smallValue,
+				price_lte: bigValue,
+			};
+			const products = await axiosClient.get('products', { params: payload });
+			return {
+				products: [...products.data],
+				filters: payload,
+			};
 		}
-		setIndex(i);
+	};
+
+	const clearFilterProductsByPrice = async () => {
+		const payload = {
+			price_gte: '0',
+		};
+		const products = await axiosClient.get('products', { params: payload });
+		return {
+			products: [...products.data],
+			filters: payload,
+		};
+	};
+
+	const handleSetActive = async (i, price) => {
+		productsContext.dispatch({
+			type: Types.SET_IS_LOADING,
+		});
+		try {
+			if (i === index) {
+				const { products, filters } = await clearFilterProductsByPrice();
+				productsContext.dispatch({
+					type: Types.FILTER_BY_RATING,
+					payload: { products, filters },
+				});
+				setIndex(null);
+				return;
+			}
+			const { products, filters } = await getProductsByPrice(price);
+			productsContext.dispatch({
+				type: Types.FILTER_BY_RATING,
+				payload: { products, filters },
+			});
+			setIndex(i);
+		} catch (error) {
+			console.log(error);
+		}
 	};
 
 	const showListFilterPrice = (listPrice) => {
@@ -28,8 +97,7 @@ export default function FilterPrice() {
 				<div
 					className={index === i ? 'price-item active' : 'price-item'}
 					key={i}
-					onClick={() => handleSetActive(i)}
-					data-value={price.value}
+					onClick={() => handleSetActive(i, price)}
 				>
 					{price.lable}
 				</div>
