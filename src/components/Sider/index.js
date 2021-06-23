@@ -1,5 +1,6 @@
 import { Divider } from 'antd';
-import React from 'react';
+import { ProductsContext } from 'contexts/context/contexts';
+import React, { useContext } from 'react';
 
 import ButtonClear from './ButtonClear';
 import FilterBrand from './FilterBrand';
@@ -10,9 +11,13 @@ import ShowResultFor from './ShowResultFor';
 import './style.scss';
 
 export default function SideBar() {
+	const productsContext = useContext(ProductsContext);
+
 	return (
 		<aside id='sidebar'>
-			<ButtonClear />
+			{Object.keys(productsContext.payload.filters).length > 0 ? (
+				<ButtonClear />
+			) : null}
 			<h3 className='show-result'>Show result for</h3>
 			<ShowResultFor />
 			<Divider />

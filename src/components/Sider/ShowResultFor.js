@@ -100,6 +100,25 @@ function ShowResultFor() {
 					});
 					return;
 				}
+				case 1: {
+					if (category.isActive) {
+						// const { products, productsInPage, filters } =
+						// 	await clearProductByCategory();
+						// productsContext.dispatch({
+						// 	type: Types.CLEAR_FILTER_CATEGORIES_LV0,
+						// 	payload: { products, productsInPage, category, filters },
+						// });
+						return;
+					}
+					const { products, productsInPage, filters } =
+						await getProductsByCategory(category.name);
+
+					productsContext.dispatch({
+						type: Types.GET_CATEGORIES_LVL_1,
+						payload: { products, productsInPage, category, filters },
+					});
+					return;
+				}
 				default:
 					return;
 			}
