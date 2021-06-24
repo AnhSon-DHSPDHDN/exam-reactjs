@@ -1,43 +1,41 @@
+import { TypesSuccess } from 'constants/types';
 import React from 'react';
-
-const mockData = [
-	{
-		name: 'Appliances',
-		level: 0,
-		isActive: true,
-		children: [
-			{
-				name: 'Dishwashers',
-				level: 1,
-				isActive: true,
-				children: [
-					{
-						name: 'Dishwashers 2',
-						isActive: true,
-						level: 2,
-					},
-				],
-			},
-			{
-				name: 'item 2',
-				isActive: false,
-				level: 1,
-			},
-			{
-				name: 'item 3',
-				isActive: false,
-				level: 1,
-			},
-		],
-	},
-	{
-		name: 'Appliances 2',
-		isActive: false,
-		level: 0,
-	},
-];
+import { useDispatch, useSelector } from 'react-redux';
+import {
+	actClearProductByCategory,
+	getListCategoryLv0,
+	actGetListCategoryLv1,
+} from 'redux/actions/productsAction';
 
 function ShowResultFor() {
+	const dispatch = useDispatch();
+	const showResultFor = useSelector((state) => state.products.showResultFor);
+	const filters = useSelector((state) => state.products.filters);
+
+	const handleClickCategory = async (category) => {
+		dispatch({ type: TypesSuccess.SET_IS_LOADING_SUCCESS });
+		try {
+			switch (category.level) {
+				case 0: {
+					if (category.isActive) {
+						dispatch(actClearProductByCategory(category, filters));
+						return;
+					}
+					dispatch(getListCategoryLv0(category, filters));
+					return;
+				}
+				case 1: {
+					dispatch(actGetListCategoryLv1(category, filters));
+					return;
+				}
+				default:
+					return;
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
 	const mapListRefine = (data, margin) => {
 		return data.map((dataItem, index) => {
 			return (
@@ -47,6 +45,7 @@ function ShowResultFor() {
 						className={`refine-block__text ${
 							dataItem.isActive ? 'active' : ''
 						}`}
+						onClick={() => handleClickCategory(dataItem)}
 					>
 						{dataItem.name}
 					</span>
@@ -55,7 +54,7 @@ function ShowResultFor() {
 			);
 		});
 	};
-	return <div className='refine-block'>{mapListRefine(mockData, 0)}</div>;
+	return <div className='refine-block'>{mapListRefine(showResultFor, 0)}</div>;
 }
 
 export default ShowResultFor;
