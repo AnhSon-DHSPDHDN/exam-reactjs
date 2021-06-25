@@ -1,5 +1,6 @@
 import { Divider } from 'antd';
 import React from 'react';
+import { useSelector } from 'react-redux';
 
 import ButtonClear from './ButtonClear';
 import FilterBrand from './FilterBrand';
@@ -10,9 +11,11 @@ import ShowResultFor from './ShowResultFor';
 import './style.scss';
 
 export default function SideBar() {
+	const filters = useSelector((state) => state.products.filters);
+
 	return (
 		<aside id='sidebar'>
-			<ButtonClear />
+			{Object.keys(filters).length > 0 ? <ButtonClear /> : null}
 			<h3 className='show-result'>Show result for</h3>
 			<ShowResultFor />
 			<Divider />
