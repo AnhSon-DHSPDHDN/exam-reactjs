@@ -1,5 +1,5 @@
 import { TypesSuccess } from 'constants/types';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import axiosClient from 'untils/axiosClient';
 
@@ -89,6 +89,12 @@ export default function FilterPrice() {
 			console.log(error);
 		}
 	};
+
+	useEffect(() => {
+		if (Object.keys(filters).length === 0) {
+			setIndex(null);
+		}
+	}, [filters]);
 
 	const showListFilterPrice = (listPrice) => {
 		return listPrice.map((price, i) => {
